@@ -1,0 +1,709 @@
+<title>PTE Core — 62到80，五周计划 5-Week Plan</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #eef1f4;
+    --ink: #1b2430;
+    --ink-soft: #55606e;
+    --ink-faint: #7c8794;
+    --line: #e1e5ea;
+    --accent: #1f5c6b;
+    --accent-soft: #e7f0f1;
+    --listening: #3b6ea5;
+    --speaking: #c0632e;
+    --reading: #3c7a5d;
+    --writing: #6b4e9c;
+    --listening-bg: #eaf1f8;
+    --speaking-bg: #fbeee5;
+    --reading-bg: #e9f3ee;
+    --writing-bg: #f1ecf7;
+    --radius: 10px;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  :root[data-theme="dark"] {
+    --bg: #12161c;
+    --surface: #1a2029;
+    --surface-2: #212934;
+    --ink: #e7eaee;
+    --ink-soft: #9aa5b1;
+    --ink-faint: #6d7885;
+    --line: #2a313b;
+    --accent: #7fc4d4;
+    --accent-soft: #1c2f34;
+    --listening: #7fa8d6;
+    --speaking: #e08a52;
+    --reading: #7bc79e;
+    --writing: #a78bce;
+    --listening-bg: #1a2531;
+    --speaking-bg: #2a2019;
+    --reading-bg: #182a22;
+    --writing-bg: #241f2e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12161c;
+      --surface: #1a2029;
+      --surface-2: #212934;
+      --ink: #e7eaee;
+      --ink-soft: #9aa5b1;
+      --ink-faint: #6d7885;
+      --line: #2a313b;
+      --accent: #7fc4d4;
+      --accent-soft: #1c2f34;
+      --listening: #7fa8d6;
+      --speaking: #e08a52;
+      --reading: #7bc79e;
+      --writing: #a78bce;
+      --listening-bg: #1a2531;
+      --speaking-bg: #2a2019;
+      --reading-bg: #182a22;
+      --writing-bg: #241f2e;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 20px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  a { color: var(--accent); }
+
+  /* ---- Header / masthead ---- */
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 28px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(28px, 4.5vw, 38px);
+    margin: 0;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  .masthead p {
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 0;
+    font-size: 15px;
+  }
+  .countdown-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .countdown-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .countdown-item .num {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .countdown-item .lbl {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  section { display: flex; flex-direction: column; gap: 16px; }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 17px;
+    margin: 0;
+  }
+  .section-note { color: var(--ink-soft); font-size: 14.5px; max-width: 68ch; margin: 0; }
+
+  /* ---- Score dashboard ---- */
+  .score-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .overall-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .overall-row .big {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 34px;
+    font-weight: 700;
+  }
+  .overall-row .arrow { color: var(--ink-faint); font-size: 20px; margin: 0 8px; }
+  .overall-row .target { color: var(--accent); }
+  .overall-row .meta { color: var(--ink-faint); font-size: 12.5px; }
+
+  .bar-row {
+    display: grid;
+    grid-template-columns: 96px 1fr 88px;
+    align-items: center;
+    gap: 14px;
+  }
+  .bar-row .skill-name {
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .bar-track {
+    position: relative;
+    height: 20px;
+    background: var(--surface-2);
+    border-radius: 5px;
+    overflow: visible;
+  }
+  .bar-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    border-radius: 5px;
+  }
+  .bar-target-mark {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    width: 2px;
+  }
+  .bar-row .scores {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    text-align: right;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .bar-row .scores b { color: var(--ink); }
+  .legend-note { font-size: 12px; color: var(--ink-faint); }
+  .legend-note .swatch {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 2px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  .callout {
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .callout b { color: var(--ink); }
+
+  /* ---- tags ---- */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .tag.listening { color: var(--listening); background: var(--listening-bg); }
+  .tag.speaking { color: var(--speaking); background: var(--speaking-bg); }
+  .tag.reading { color: var(--reading); background: var(--reading-bg); }
+  .tag.writing { color: var(--writing); background: var(--writing-bg); }
+
+  /* ---- resource map ---- */
+  .res-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .res-table th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    font-weight: 600;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .res-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .res-table td.pg { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-soft); white-space: nowrap; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .table-wrap .res-table { min-width: 560px; }
+  .table-wrap .res-table th:first-child, .table-wrap .res-table td:first-child { padding-left: 16px; }
+  .table-wrap .res-table th:last-child, .table-wrap .res-table td:last-child { padding-right: 16px; }
+
+  /* ---- week cards ---- */
+  .week-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+  .week-nav a {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+  .week-nav a:hover { border-color: var(--accent); color: var(--accent); }
+
+  .week-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 22px 18px;
+    scroll-margin-top: 16px;
+  }
+  .week-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .week-head .wk-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .week-head .wk-dates {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+  }
+  .week-theme { color: var(--ink-soft); font-size: 13.5px; margin: 4px 0 14px; }
+
+  .day-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .day-table th {
+    text-align: left;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    font-weight: 600;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .day-table td {
+    padding: 9px 8px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .day-table tr:last-child td { border-bottom: none; }
+  .day-table td.day-cell { white-space: nowrap; font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); }
+  .day-table td.plan-cell { color: var(--ink); }
+  .day-table td.plan-cell .sub { color: var(--ink-soft); font-size: 12.5px; }
+  tr.mock-row td { background: var(--accent-soft); }
+  tr.mock-row td.day-cell { font-weight: 700; color: var(--accent); }
+
+  /* ---- cheat sheets ---- */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 620px) { .cheat-grid { grid-template-columns: 1fr; } }
+  .cheat-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top-width: 3px;
+    border-radius: 8px;
+    padding: 16px 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .cheat-card.listening { border-top-color: var(--listening); }
+  .cheat-card.speaking { border-top-color: var(--speaking); }
+  .cheat-card.reading { border-top-color: var(--reading); }
+  .cheat-card.writing { border-top-color: var(--writing); }
+  .cheat-card h4 {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 700;
+  }
+  .cheat-card ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--ink-soft); display: flex; flex-direction: column; gap: 4px; }
+  .cheat-card ul li::marker { color: var(--ink-faint); }
+
+  /* ---- leverage table ---- */
+  .lev-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .lev-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); font-weight: 600; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+  .lev-table td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+
+  /* ---- tools list ---- */
+  .tool-list { display: flex; flex-direction: column; gap: 10px; }
+  .tool-item { display: flex; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+  .tool-item .name { font-weight: 700; font-size: 14px; min-width: 130px; }
+  .tool-item .desc { color: var(--ink-soft); font-size: 13.5px; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    font-size: 12px;
+    color: var(--ink-faint);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  footer a { color: var(--ink-faint); }
+</style>
+
+<div class="page">
+
+  <div class="masthead">
+    <div class="eyebrow">PTE Core · 备考计划 Study Plan · 中英双语 Bilingual</div>
+    <h1>62 → 80，五周冲刺<br><span style="font-size:0.62em;color:var(--ink-soft);font-family:var(--sans);font-weight:400;">62 → 80 in five weeks</span></h1>
+    <p>从4月30日的62分冲到9月15日的80分——按你自己的696页机经题库来安排，口语和阅读优先，写作只需要打磨。<br>From your 30 Apr baseline (62) to 80 overall by 15 Sep — built around your own question bank, Speaking and Reading first, Writing just needs polish.</p>
+    <div class="countdown-row">
+      <div class="countdown-item"><span class="num">36</span><span class="lbl">天 Days to Sep 15</span></div>
+      <div class="countdown-item"><span class="num">5</span><span class="lbl">周 Weeks · 2 hrs/day</span></div>
+      <div class="countdown-item"><span class="num">~70</span><span class="lbl">学习时长 Study hrs</span></div>
+    </div>
+  </div>
+
+  <section id="dashboard">
+    <h2>差距 Score Gaps</h2>
+    <p class="section-note">实心条 = 4月30日现在的分数；竖线 = 五周后的目标。排序从差距最大到最小。<br>Filled bar = your current score. Vertical mark = 5-week target. Ordered biggest gap → smallest.</p>
+    <div class="score-card">
+      <div class="overall-row">
+        <div>
+          <span class="big">62</span><span class="arrow">→</span><span class="big target">80</span>
+        </div>
+        <div class="meta">总分不是四科的简单平均分，所以下面每科目标都留了余量。<br>Overall isn't a plain average of the four skills, so the per-skill targets below carry a buffer.</div>
+      </div>
+
+      <div class="bar-row">
+        <span class="skill-name" style="color:var(--speaking)">Speaking 口语</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:61.1%; background:var(--speaking)"></div>
+          <div class="bar-target-mark" style="left:82.2%; background:var(--ink)"></div>
+        </div>
+        <span class="scores"><b>55</b> → 74 <span style="color:var(--speaking)">+19</span></span>
+      </div>
+      <div class="bar-row">
+        <span class="skill-name" style="color:var(--reading)">Reading 阅读</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:65.6%; background:var(--reading)"></div>
+          <div class="bar-target-mark" style="left:85.6%; background:var(--ink)"></div>
+        </div>
+        <span class="scores"><b>59</b> → 77 <span style="color:var(--reading)">+18</span></span>
+      </div>
+      <div class="bar-row">
+        <span class="skill-name" style="color:var(--listening)">Listening 听力</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:76.7%; background:var(--listening)"></div>
+          <div class="bar-target-mark" style="left:87.8%; background:var(--ink)"></div>
+        </div>
+        <span class="scores"><b>69</b> → 79 <span style="color:var(--listening)">+10</span></span>
+      </div>
+      <div class="bar-row">
+        <span class="skill-name" style="color:var(--writing)">Writing 写作</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:82.2%; background:var(--writing)"></div>
+          <div class="bar-target-mark" style="left:92.2%; background:var(--ink)"></div>
+        </div>
+        <span class="scores"><b>74</b> → 83 <span style="color:var(--writing)">+9</span></span>
+      </div>
+
+      <div class="legend-note">口语分低但最好提；阅读差距大但没有捷径；写作快到了，别多花时间。<br>Speaking is lowest but easiest to fix fast; Reading has the biggest real gap; Writing is almost there — don't over-invest.</div>
+    </div>
+  </section>
+
+  <section id="resources">
+    <h2>你的核心资源：8月机经 Your Main Resource: the August 机经</h2>
+    <p class="section-note"><code>202608 月资料.pdf</code> 是696页的预测题库，按题型分类——比一般刷题App更值得优先用，因为都是最近真实考题。下面是页码地图：<br><code>202608 月资料.pdf</code> is a 696-page predicted-item bank by task type — use this before generic apps, since it's built from recently-reported real exam content. Page map below:</p>
+    <div class="table-wrap">
+      <table class="res-table">
+        <tr><th>Section</th><th>Task type</th><th>Starts p.</th></tr>
+        <tr><td><span class="tag speaking">Speaking</span></td><td>Read Aloud</td><td class="pg">24</td></tr>
+        <tr><td></td><td>Repeat Sentence</td><td class="pg">38</td></tr>
+        <tr><td></td><td>Describe Image</td><td class="pg">52</td></tr>
+        <tr><td></td><td>Re-tell Lecture</td><td class="pg">81</td></tr>
+        <tr><td></td><td>Answer Short Question</td><td class="pg">109</td></tr>
+        <tr><td></td><td>Summarize Group Discussion</td><td class="pg">128</td></tr>
+        <tr><td><span class="tag writing">Writing</span></td><td>Summarize Written Text</td><td class="pg">198</td></tr>
+        <tr><td></td><td>Write Essay</td><td class="pg">241</td></tr>
+        <tr><td><span class="tag reading">Reading</span></td><td>MCQ / Fill in the Blanks / Re-order Paragraphs (mixed)</td><td class="pg">298–608</td></tr>
+        <tr><td></td><td>&nbsp;&nbsp;↳ Re-order Paragraphs starts</td><td class="pg">417</td></tr>
+        <tr><td><span class="tag listening">Listening</span></td><td>Summarize Spoken Text</td><td class="pg">609</td></tr>
+        <tr><td></td><td>Fill in the Blanks</td><td class="pg">658</td></tr>
+        <tr><td></td><td>Highlight Correct Summary</td><td class="pg">670</td></tr>
+        <tr><td></td><td>Select Missing Word</td><td class="pg">676</td></tr>
+        <tr><td></td><td>Highlight Incorrect Words</td><td class="pg">677</td></tr>
+        <tr><td></td><td>Write From Dictation</td><td class="pg">685</td></tr>
+      </table>
+    </div>
+    <div class="callout">Reading is 311 of the 696 pages — by far the largest section — which tracks with it being your second-weakest score. Budget accordingly rather than splitting time evenly.</div>
+  </section>
+
+  <section id="weekly-rhythm">
+    <h2>五周计划 The 5-Week Plan</h2>
+    <p class="section-note">每天2小时。8月10日周一开始，9月15日周二截止。<br>2 hours/day. Starts Mon Aug 10, ends Tue Sep 15.</p>
+
+    <div class="week-card">
+      <div class="week-head"><span class="wk-num">Week 1 · 口语冲刺 Speaking Push — 50%</span><span class="wk-dates">Aug 10–16</span></div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:8px;">
+        <li>Read Aloud 每天30-40题：<b>不停顿、不重读、不自我纠正</b>，生词跳过或蒙音，流利比准确重要。<br><span style="color:var(--ink-soft);">30-40 items/day — never pause, never re-read, never self-correct; skip unknown words. Fluency beats accuracy.</span></li>
+        <li>Repeat Sentence 每天30-50句：抓主谓宾，自己的话流利说出来，重复两遍也行。<br><span style="color:var(--ink-soft);">30-50 sentences/day — catch subject-verb-object, say it fluently, repeating twice is fine.</span></li>
+        <li>Describe Image / Re-tell Lecture：第一天背熟一个模板，之后每天5-8题保持手感。<br><span style="color:var(--ink-soft);">Memorize one template on day 1, then 5-8 items/day just to stay sharp.</span></li>
+      </ul>
+    </div>
+
+    <div class="week-card">
+      <div class="week-head"><span class="wk-num">Week 2 · 阅读突破 Reading Push — 50%</span><span class="wk-dates">Aug 17–23</span></div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:8px;">
+        <li>FIB 填空是核心：高频题库刷一遍，生词/搭配记本子上每天看，高频背熟，冷门不管。<br><span style="color:var(--ink-soft);">Fill in the Blanks is the core lever — go through the bank once, log new words/collocations, review daily.</span></li>
+        <li>段落排序每天10-15题：找连接词（however/therefore）和代词指代，1分钟一题，解不出就猜。<br><span style="color:var(--ink-soft);">Re-order Paragraphs 10-15/day — spot connectors and pronouns, cap 1 min/item, guess if stuck.</span></li>
+        <li>选择题放最后，分值低，快速略读，不确定就蒙。<br><span style="color:var(--ink-soft);">MCQ last — lower value, skim fast, guess decisively.</span></li>
+      </ul>
+    </div>
+
+    <div class="week-card">
+      <div class="week-head"><span class="wk-num">Week 3 · 听力稳 + 写作冲 Listening + Writing</span><span class="wk-dates">Aug 24–30</span></div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:8px;">
+        <li><b>WFD 是王牌</b>（同时算听力+写作分）：高频题库约140-200句，刷到听到就能默写，不确定就猜时态/单复数，别空着。<br><span style="color:var(--ink-soft);">WFD is the MVP (counts for both Listening + Writing) — ~140-200 sentences, drill until you can write from memory. Guess, never leave blank.</span></li>
+        <li>SST 套模板：练抓关键词，填进模板。<br><span style="color:var(--ink-soft);">Summarize Spoken Text — template it, catch keywords, slot them in.</span></li>
+        <li>Writing 已经74了：准备2-3个万能模板，重点是考试当天检查拼写语法，别在这科多花时间。<br><span style="color:var(--ink-soft);">Writing is already 74 — just template + proofread carefully, don't over-invest here.</span></li>
+      </ul>
+    </div>
+
+    <div class="week-card">
+      <div class="week-head"><span class="wk-num">Week 4 · 全真模考 Full Mocks</span><span class="wk-dates">Aug 31–Sep 6</span></div>
+      <ul style="margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:8px;">
+        <li>3-4次完整计时模考，严格照考试条件来。<br><span style="color:var(--ink-soft);">3-4 full timed mocks, real exam conditions.</span></li>
+        <li>每次模考后针对丢分最多的题型强化，别再盲目刷新题。<br><span style="color:var(--ink-soft);">After each mock, drill whatever lost the most points — don't just grind new material.</span></li>
+        <li><b>现在就去约考试</b>，建议定在9/11或9/12，给出分留缓冲。<br><span style="color:var(--ink-soft);"><b>Book the real test now</b> — aim for Sep 11 or 12, leaving buffer before the Sep 15 deadline.</span></li>
+      </ul>
+    </div>
+
+    <div class="week-card">
+      <div class="week-head"><span class="wk-num">Week 5 · 加分缓冲周 Bonus Buffer Week</span><span class="wk-dates">Sep 7–15</span></div>
+      <p class="week-theme">你实际有5周不是4周，这一周是多出来的安全垫，别用来硬塞新内容。<br>You actually have 5 weeks, not 4 — this is a safety margin, not a place for new material.</p>
+      <ul style="margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:8px;">
+        <li>周初1-2次模考做最后检查，最好换个平台交叉验证分数。<br><span style="color:var(--ink-soft);">1-2 more mocks early in the week — ideally on a different platform to cross-check your score.</span></li>
+        <li>考前最后2天只轻度复习：高频词、WFD句子、口语模板。不再刷新题。<br><span style="color:var(--ink-soft);">Last 2 days before the test: light review only — vocab, WFD sentences, speaking templates. No new material.</span></li>
+      </ul>
+    </div>
+
+    <div class="callout"><b>关于约考 On booking:</b> Pearson 一般24-48小时内出分。建议约<b>9月11或12日</b>，给15号截止日留几天缓冲。<br>Pearson typically releases results within 24-48 hours. Book for <b>Sep 11 or 12</b> to leave buffer before the 15th.</div>
+  </section>
+
+  <section id="tips">
+    <h2>5条核心建议 Top 5 Tips</h2>
+    <div class="score-card" style="gap:14px;">
+      <ol style="margin:0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:10px;">
+        <li>口语最容易快速提分——评分看流利度，不是发音语法完美。<br><span style="color:var(--ink-soft);">Speaking is your fastest win — scored on fluency, not perfection.</span></li>
+        <li>WFD 性价比最高——一份时间，听力写作两份回报。<br><span style="color:var(--ink-soft);">WFD is best ROI — one effort, two skill scores.</span></li>
+        <li>Writing 别多花时间——已经74了，模板+校对就够。<br><span style="color:var(--ink-soft);">Don't over-invest in Writing — it's already close.</span></li>
+        <li>Reading 没有捷径——需要持续积累，尽早开始别拖到最后。<br><span style="color:var(--ink-soft);">Reading has no shortcut — start early, needs sustained time.</span></li>
+        <li>模考分数可能偏乐观——多平台交叉验证，别只信一个。<br><span style="color:var(--ink-soft);">Mock scores can run optimistic — cross-check across platforms.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="cheatsheets">
+    <div class="eyebrow">补充参考 · 非必读 Extra Reference · Optional</div>
+    <h2>各题型速查卡 Task-Type Cheat Sheets</h2>
+    <p class="section-note">上面的五周计划已经够用了——这里是想深入了解某个题型时再看。<br>The 5-week plan above is enough on its own — come back here only if you want more detail on a specific task.</p>
+    <div class="cheat-grid">
+      <div class="cheat-card speaking">
+        <h4><span class="tag speaking">Speaking</span> Read Aloud <span style="font-weight:400;color:var(--ink-faint);font-size:11px;">· Tier 1</span></h4>
+        <ul>
+          <li><b>Fluency beats pronunciation perfection</b> — a steady, moderate pace scores higher than a hesitant "correct" one. A metronome app helps train the rhythm.</li>
+          <li>Don't know a word? Skip it or sound it out by spelling rules — never stall.</li>
+          <li>Stumble? Keep going — never restart or re-read, that costs more than the slip.</li>
+        </ul>
+      </div>
+      <div class="cheat-card speaking">
+        <h4><span class="tag speaking">Speaking</span> Repeat Sentence <span style="font-weight:400;color:var(--ink-faint);font-size:11px;">· Tier 1</span></h4>
+        <ul>
+          <li>Memorize by <i>meaning</i>, not word-by-word — chunk into phrases. Working memory holds ~7 items; grouping beats brute recall.</li>
+          <li><b>Fluency beats completeness</b> — catch subject-verb-object and say it confidently even with gaps in the middle.</li>
+          <li>Only caught half the sentence? Say what you have — twice, fluently — rather than trailing off once.</li>
+        </ul>
+      </div>
+      <div class="cheat-card speaking">
+        <h4><span class="tag speaking">Speaking</span> Describe Image <span style="font-weight:400;color:var(--ink-faint);font-size:11px;">· Tier 1</span></h4>
+        <ul>
+          <li>The most template-able task in the test — 3-part structure: overview → key trend/data → brief conclusion.</li>
+          <li>Fill the ~35–40s window; silence costs fluency points.</li>
+          <li>Full template variants below in <a href="#templates">Full Templates</a>.</li>
+        </ul>
+      </div>
+      <div class="cheat-card speaking">
+        <h4><span class="tag speaking">Speaking</span> Re-tell Lecture / ASQ / Group Discussion <span style="font-weight:400;color:var(--ink-faint);font-size:11px;">· Tier 2</span></h4>
+        <ul>
+          <li>Re-tell Lecture: jot 3–4 keywords while listening, structure topic → points → conclusion.</li>
+          <li>Answer Short Question: answer in 1–3 words instantly, don't explain — wrong guesses aren't penalized, so never leave one blank.</li>
+          <li>Group Discussion: track each speaker's stance, summarize the overall arc. Full templates below in <a href="#templates">Full Templates</a>.</li>
+        </ul>
+      </div>
+      <div class="cheat-card writing">
+        <h4><span class="tag writing">Writing</span> Summarize Written Text</h4>
+        <ul>
+          <li>One sentence, 25–50 words (Core spec) — use subordination (although/which/because), not two sentences.</li>
+          <li>Capture the main idea plus one supporting point.</li>
+          <li>Check grammar and the single closing period before submitting.</li>
+        </ul>
+      </div>
+      <div class="cheat-card writing">
+        <h4><span class="tag writing">Writing</span> Write Essay</h4>
+        <ul>
+          <li>200–300 words, 20 minutes: intro (paraphrase + stance) → 2–3 body paragraphs → conclusion.</li>
+          <li>Adapt any template to the actual prompt — generic, unmodified templates are scored down under current rules.</li>
+          <li>One idea + one example per body paragraph, not a list of unsupported claims.</li>
+        </ul>
+      </div>
+      <div class="cheat-card reading">
+        <h4><span class="tag reading">Reading</span> Re-order Paragraphs</h4>
+        <ul>
+          <li>Find the topic sentence first — the one with no backward reference. Budget ~90 seconds.</li>
+          <li>Chain the rest by pronouns (it/they/this) and connectors referencing prior sentences.</li>
+          <li>Re-read the assembled order once before moving on.</li>
+        </ul>
+      </div>
+      <div class="cheat-card reading">
+        <h4><span class="tag reading">Reading</span> Fill in the Blanks / MCQ</h4>
+        <ul>
+          <li>Use collocations and grammar (part of speech, subject-verb agreement) to eliminate options fast.</li>
+          <li>Bottom-up: if the first blank is unclear, read on for context before committing.</li>
+          <li>Multiple-answer MCQ: don't over-select — wrong picks are penalized.</li>
+        </ul>
+      </div>
+      <div class="cheat-card listening">
+        <h4><span class="tag listening">Listening</span> Write From Dictation</h4>
+        <ul>
+          <li>Plays once — jot fragments immediately, reconstruct the grammar after.</li>
+          <li>Partial credit per word: always write something, never leave it blank.</li>
+        </ul>
+      </div>
+      <div class="cheat-card listening">
+        <h4><span class="tag listening">Listening</span> Summarize Spoken Text</h4>
+        <ul>
+          <li>Short-form notes for key points, examples, and topic shifts while listening.</li>
+          <li><b>20–30 words</b> for Core (not Academic's 50–70) — going over costs Form points.</li>
+          <li>Neutral tone, no personal opinion, stick to the speaker's core takeaway.</li>
+        </ul>
+      </div>
+      <div class="cheat-card listening">
+        <h4><span class="tag listening">Listening</span> HCS / SMW / HIW / FIB</h4>
+        <ul>
+          <li>Predict word type or missing content from context before the audio starts.</li>
+          <li>Highlight Incorrect Words: listen for words that don't fit the sentence's meaning, not just odd sounds.</li>
+          <li>Highlight Correct Summary: eliminate summaries with claims the audio didn't support.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="templates">
+    <div class="eyebrow">补充参考 · 非必读 Extra Reference · Optional</div>
+    <h2>口语完整模板 Full Speaking Templates</h2>
+    <p class="section-note">Pulled from your uploaded <code>备考鸡精.pdf</code> and built out to cover the Core speaking tasks it didn't include. One correction first — worth reading before you use the rest of that file:</p>
+    <div class="callout"><b>Skip the "Respond to a Situation" section in 备考鸡精.pdf.</b> That file labels it "(PTEA)" itself, and your own August 机经 bank confirms it — RTS items there are tagged <code>RTS(A)</code>, meaning PTE <i>Academic</i>-only bonus content (p.187–197 of <code>202608 月资料.pdf</code>). It is not a scored PTE Core task. Your real Core speaking roster, matching what's actually in your bank, is Read Aloud, Repeat Sentence, Describe Image, Re-tell Lecture, Answer Short Question, and Summarize Group Discussion — no RTS. Don't spend time on it.</div>
+
+    <div class="cheat-grid">
+      <div class="cheat-card speaking">
+        <h4>Describe Image — full templates</h4>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 4px;">From your uploaded file — works for bar/line/pie/table images. Cycle/process diagrams use the 5-stage version below instead.</p>
+        <p style="font-size:13px;"><b>模板 1</b><br>The given chart/picture represents <i>话题</i>. There are various components such as <i>关键词</i>, <i>关键词</i>, and <i>关键词</i>. The most important feature out of all is <i>关键描述</i>, whereas the least is <i>关键描述</i>. Similarly, it can be seen that <i>关键描述</i>. In conclusion, the graph provides a summary of <i>关键描述</i>.</p>
+        <p style="font-size:13px;"><b>模板 2</b><br>The image provided is a <i>图像类型</i> that presents information about <i>话题</i>. While the X/horizontal axis represents <i>关键词</i>, the Y/vertical axis represents <i>关键词</i>. It is evident that <i>关键描述</i>. Moreover, <i>关键描述</i>. Another significant point is <i>关键描述</i>. Overall, the image gives details about <i>话题</i>.</p>
+        <p style="font-size:13px;"><b>Cycle / Process diagram (5-stage)</b><br>The image illustrates a process about <i>___</i>. Overall, the diagram shows several stages of <i>___</i>. Firstly, <i>___</i>. Then, <i>___</i>. After that, <i>___</i>. Next, <i>___</i>. Finally, <i>___</i>. It is also noticeable that the process is connected step by step. In conclusion, the diagram clearly explains the process of <i>___</i>.</p>
+      </div>
+
+      <div class="cheat-card speaking">
+        <h4>Re-tell Lecture — full template</h4>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 4px;">~40s response, from notes — never read back verbatim.</p>
+        <p style="font-size:13px;"><b>标准三段式</b><br>This lecture is mainly about <i>话题</i>. The speaker points out that <i>关键点1</i>, and also mentions <i>关键点2</i>. For example, <i>关键描述/举例</i>. In conclusion, the lecture highlights the importance of <i>话题/结论</i>.</p>
+        <p style="font-size:13px;"><b>多要点递进</b><br>The talk focuses on <i>话题</i>. According to the speaker, firstly, <i>关键点1</i>. Secondly, <i>关键点2</i>. In addition, <i>关键描述</i>. Overall, the speaker suggests that <i>结论</i>.</p>
+        <p style="font-size:12px;color:var(--ink-faint);">提示：用关键词记笔记，不写全句；40秒内说满3-4句，宁可简洁完整，不要卡壳。</p>
+      </div>
+
+      <div class="cheat-card speaking">
+        <h4>Answer Short Question — pattern bank</h4>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 4px;">1–3 words only, ~9–10s window, wrong answers aren't penalized further — never leave one blank.</p>
+        <ul style="font-size:13px;">
+          <li><b>定义命名类</b> "What do we call...?" → Dentist / Iron / Chemist</li>
+          <li><b>反义词类</b> "Opposite of...?" → Natural / Antagonist / Cold</li>
+          <li><b>近义词类</b> "Another word for...?" → Glad / Large</li>
+          <li><b>数量事实类</b> "How many...?" → Seven / Three / Eleven</li>
+          <li><b>分类归属类</b> "Name a type of...?" → Banana / Puppy / Pride</li>
+          <li><b>常识科学类</b> → Photosynthesis / Mercury / Violin</li>
+        </ul>
+        <p style="font-size:12px;color:var(--ink-faint);">口诀：听关键词 → 想类别 → 只说词，不说句 → 立刻开口，宁猜不空。</p>
+      </div>
+
+      <div class="cheat-card speaking">
+        <h4>Summarize Group Discussion — full template</h4>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:0 0 4px;">10s prep + 2min response, dual-scored into <span class="tag listening">Listening</span> + <span class="tag speaking">Speaking</span>. Content coverage of every speaker matters most.</p>
+        <p style="font-size:13px;"><b>精简单句版（保险省时）</b><br>The discussion focused on <i>话题</i>, where <i>说话人A</i> argued that <i>观点A</i> because <i>理由A</i>, while <i>说话人B</i> disagreed, contending that <i>观点B</i>; <i>说话人C</i> took a middle ground, suggesting <i>观点C</i>, and the group ultimately agreed that / remained divided over <i>结论</i>.</p>
+        <p style="font-size:12px;color:var(--ink-faint);">表达库：X argued that... / Y disagreed, pointing out that... / Z raised a further point, noting... / In the end, the group agreed that... / remained divided on..., with no clear resolution.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools">
+    <div class="eyebrow">补充参考 · 非必读 Extra Reference · Optional</div>
+    <h2>配合机经使用的工具 Tools Alongside the 机经</h2>
+    <div class="tool-list">
+      <div class="tool-item"><div class="name">Your 机经 bank</div><div class="desc">Primary source — <code>202608 月资料.pdf</code>, real recently-reported items, mapped above.</div></div>
+      <div class="tool-item"><div class="name">Pearson Official</div><div class="desc">Official item styles plus free scored practice sections — best for calibrating what "real" scoring feels like.</div></div>
+      <div class="tool-item"><div class="name">APEUni</div><div class="desc">AI scoring for Speaking and Writing, large question bank, widely used — good for the daily mocks in Weeks 2–5.</div></div>
+      <div class="tool-item"><div class="name">PTE Tutorials</div><div class="desc">Task-by-task strategy videos and articles if a cheat sheet above needs more depth.</div></div>
+      <div class="tool-item"><div class="name">E2Language</div><div class="desc">Free YouTube walkthroughs per task type — useful for the Week 1 "learn the rules" days.</div></div>
+      <div class="tool-item"><div class="name">小红书 (rednote)</div><div class="desc">Search "PTE Core 机经" or "PTE Core 79" for recent test-taker reports of repeat items — cross-check against Pearson's own guidance since community info varies in freshness.</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div>基线：2026年4月30日 PTE Core 成绩单（总分62 · 听69 读59 说55 写74）。题库：<code>202608 月资料.pdf</code>。<br>Baseline: PTE Core score report, 30 Apr 2026 (Overall 62 · L69 R59 S55 W74). Bank: <code>202608 月资料.pdf</code>.</div>
+    <div>策略参考 Pearson 官方评分说明 + 中文备考经验（27篇笔记综合）+ 现行 PTE Core 备考资料整理。<br>Strategy drawn from Pearson's official scoring guidance, a synthesis of Chinese test-taker prep notes, and current PTE Core prep sources.</div>
+  </footer>
+
+</div>
