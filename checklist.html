@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 打卡清单 · Daily Checklist — PTE Core</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #eef1f4;
+    --ink: #1b2430;
+    --ink-soft: #55606e;
+    --ink-faint: #7c8794;
+    --line: #e1e5ea;
+    --accent: #1f5c6b;
+    --accent-soft: #e7f0f1;
+    --listening: #3b6ea5;
+    --speaking: #c0632e;
+    --reading: #3c7a5d;
+    --writing: #6b4e9c;
+    --listening-bg: #eaf1f8;
+    --speaking-bg: #fbeee5;
+    --reading-bg: #e9f3ee;
+    --writing-bg: #f1ecf7;
+    --success: #3f9142;
+    --success-bg: #eaf5e7;
+    --gold: #c9932c;
+    --gold-bg: #fff3d6;
+    --radius: 10px;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  :root[data-theme="dark"], @media (prefers-color-scheme: dark) { }
+  :root[data-theme="dark"] {
+    --bg: #12161c; --surface: #1a2029; --surface-2: #212934;
+    --ink: #e7eaee; --ink-soft: #9aa5b1; --ink-faint: #6d7885; --line: #2a313b;
+    --accent: #7fc4d4; --accent-soft: #1c2f34;
+    --listening: #7fa8d6; --speaking: #e08a52; --reading: #7bc79e; --writing: #a78bce;
+    --listening-bg: #1a2531; --speaking-bg: #2a2019; --reading-bg: #182a22; --writing-bg: #241f2e;
+    --success: #7fd47a; --success-bg: #1a2b1c; --gold: #e8b84b; --gold-bg: #2b2113;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12161c; --surface: #1a2029; --surface-2: #212934;
+      --ink: #e7eaee; --ink-soft: #9aa5b1; --ink-faint: #6d7885; --line: #2a313b;
+      --accent: #7fc4d4; --accent-soft: #1c2f34;
+      --listening: #7fa8d6; --speaking: #e08a52; --reading: #7bc79e; --writing: #a78bce;
+      --listening-bg: #1a2531; --speaking-bg: #2a2019; --reading-bg: #182a22; --writing-bg: #241f2e;
+      --success: #7fd47a; --success-bg: #1a2b1c; --gold: #e8b84b; --gold-bg: #2b2113;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 64px;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 0 16px; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 0;
+  }
+  .topbar .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .back-link { font-size: 12.5px; color: var(--ink-soft); text-decoration: none; font-family: var(--mono); }
+  .back-link:hover { color: var(--accent); }
+  .streak-chip {
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    color: var(--gold); background: var(--gold-bg);
+    padding: 3px 9px; border-radius: 20px; white-space: nowrap;
+  }
+
+  h1 { font-family: var(--serif); font-weight: 500; font-size: 21px; margin: 12px 0 2px; letter-spacing: -0.01em; }
+  .subtitle { color: var(--ink-soft); font-size: 13px; margin: 0 0 14px; }
+
+  .day-switcher {
+    display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 10px;
+    scrollbar-width: none;
+  }
+  .day-switcher::-webkit-scrollbar { display: none; }
+  .day-pill {
+    flex: 0 0 auto;
+    font-family: var(--mono); font-size: 12px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-soft);
+    padding: 7px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 5px;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .day-pill:hover { border-color: var(--accent); }
+  .day-pill.active { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 600; }
+  .day-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); flex: 0 0 auto; }
+  .day-pill.active .dot { background: var(--bg); }
+
+  .progress-head {
+    position: sticky; top: 41px; z-index: 15;
+    background: var(--bg);
+    display: flex; align-items: center; gap: 14px;
+    padding: 10px 0 12px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 14px;
+  }
+  .ring-wrap { position: relative; width: 52px; height: 52px; flex: 0 0 auto; }
+  .ring-wrap svg { width: 52px; height: 52px; transform: rotate(-90deg); }
+  .ring-track { fill: none; stroke: var(--surface-2); stroke-width: 5; }
+  .ring-fill { fill: none; stroke: var(--success); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset .4s cubic-bezier(.34,1.2,.64,1); }
+  .ring-num {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 600;
+  }
+  .progress-text { flex: 1; min-width: 0; }
+  .progress-text .theme { font-family: var(--serif); font-size: 14.5px; font-weight: 500; margin: 0 0 2px; text-wrap: balance; }
+  .progress-text .caption { font-size: 12.5px; color: var(--ink-soft); margin: 0; }
+
+  .task-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+  .task-card {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--tag-color, var(--ink-faint));
+    border-radius: 8px;
+    padding: 11px 12px;
+    transition: opacity .25s;
+  }
+  .task-card.done { opacity: .62; }
+  .task-card.done .tag-stripe-placeholder {}
+
+  .check-input { position: absolute; opacity: 0; width: 20px; height: 20px; margin: 0; cursor: pointer; }
+  .check-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; width: 100%; }
+  .check-box {
+    position: relative;
+    width: 22px; height: 22px; flex: 0 0 auto; margin-top: 1px;
+    border-radius: 7px;
+    border: 2px solid var(--tag-color, var(--ink-faint));
+    background: var(--surface);
+    transition: background .18s, transform .2s cubic-bezier(.34,1.56,.64,1), border-color .18s;
+  }
+  .check-input:checked + .check-box {
+    background: var(--success);
+    border-color: var(--success);
+    transform: scale(1.12);
+  }
+  .check-input:checked + .check-box.pulse-off { transform: scale(1); }
+  .check-box svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .check-box path {
+    fill: none; stroke: var(--bg); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 20; stroke-dashoffset: 20;
+    transition: stroke-dashoffset .18s ease-out;
+  }
+  .check-input:checked + .check-box path { stroke-dashoffset: 0; }
+  .check-input:focus-visible + .check-box { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .task-body { flex: 1; min-width: 0; }
+  .task-title { font-size: 14px; margin: 0 0 3px; position: relative; display: inline-block; }
+  .task-title .en { display: block; color: var(--ink-soft); font-size: 12px; margin-top: 1px; }
+  .task-title::after {
+    content: ""; position: absolute; left: 0; top: 50%; height: 1px; width: 0; background: var(--ink-faint);
+    transition: width .25s ease;
+  }
+  .task-card.done .task-title::after { width: 100%; }
+  .meta-row { display: flex; gap: 6px; align-items: center; margin-top: 4px; flex-wrap: wrap; }
+  .time-chip {
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint);
+    border: 1px solid var(--line); padding: 1px 6px; border-radius: 20px;
+  }
+  .skill-chip {
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .03em;
+    padding: 1px 6px; border-radius: 4px; color: var(--tag-color); background: var(--tag-bg);
+  }
+
+  .day-banner {
+    display: none;
+    background: var(--gold-bg);
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .day-banner.show { display: block; }
+  .day-banner .headline { font-family: var(--serif); font-size: 17px; color: var(--gold); margin: 0 0 4px; }
+  .day-banner .line { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+  .day-banner .line .en { display: block; margin-top: 2px; }
+
+  .badge-section { margin-bottom: 26px; }
+  .badge-section h2 { font-family: var(--serif); font-size: 15px; font-weight: 500; margin: 0 0 10px; }
+  .badge-shelf { display: flex; gap: 10px; overflow-x: auto; padding: 2px 0 6px; }
+  .badge {
+    flex: 0 0 auto; width: 68px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .badge .icon {
+    width: 46px; height: 46px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; background: var(--gold-bg); border: 1.5px solid var(--gold);
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  }
+  .badge.locked .icon { background: var(--surface-2); border-color: var(--line); filter: grayscale(1); opacity: .45; }
+  .badge.new-badge .icon { animation: badge-pop .5s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes badge-pop { 0% { transform: scale(0); } 60% { transform: scale(1.2); } 100% { transform: scale(1); } }
+  .badge .name { font-family: var(--serif); font-size: 10.5px; letter-spacing: .02em; color: var(--ink-soft); line-height: 1.25; }
+  .badge.locked .name { color: var(--ink-faint); }
+
+  .week-banner {
+    display: none;
+    background: linear-gradient(180deg, var(--gold-bg), var(--surface));
+    border: 1.5px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .week-banner.show { display: block; }
+  .week-banner .trophy { font-size: 34px; }
+  .week-banner h2 { font-family: var(--serif); font-size: 19px; color: var(--gold); margin: 8px 0 8px; }
+  .week-banner p { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+  .week-banner p .en { display: block; margin-top: 6px; }
+
+  #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  footer { margin-top: 30px; font-size: 11.5px; color: var(--ink-faint); text-align: center; }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+<div class="topbar">
+  <div class="wrap row">
+    <a class="back-link" href="index.html">← 完整计划 Full Plan</a>
+    <span class="streak-chip" id="streakChip">🔥 0 天连击 · 0 badges</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <h1>Week 1 打卡清单 <span style="font-weight:400;color:var(--ink-soft);font-size:0.7em;">Daily Checklist</span></h1>
+  <p class="subtitle">每项任务10分钟以内，做完就打勾。这是预览版——先看第1周。<br>Every task under 10 minutes — check it off as you go. Preview: Week 1 only.</p>
+
+  <div class="day-switcher" id="daySwitcher"></div>
+
+  <div class="progress-head">
+    <div class="ring-wrap">
+      <svg viewBox="0 0 52 52">
+        <circle class="ring-track" cx="26" cy="26" r="22"></circle>
+        <circle class="ring-fill" id="ringFill" cx="26" cy="26" r="22"></circle>
+      </svg>
+      <div class="ring-num" id="ringNum">0/0</div>
+    </div>
+    <div class="progress-text">
+      <p class="theme" id="dayTheme"></p>
+      <p class="caption" id="dayCaption"></p>
+    </div>
+  </div>
+
+  <span class="sr-only" id="liveRegion" aria-live="polite"></span>
+
+  <div class="day-banner" id="dayBanner">
+    <p class="headline" id="dayBannerHeadline"></p>
+    <p class="line" id="dayBannerLine"></p>
+  </div>
+
+  <div class="task-list" id="taskList"></div>
+
+  <div class="week-banner" id="weekBanner">
+    <div class="trophy">🏆</div>
+    <h2>第一周满贯 Week 1 Champion</h2>
+    <p id="weekBannerText"></p>
+  </div>
+
+  <div class="badge-section">
+    <h2>勋章 Badges</h2>
+    <div class="badge-shelf" id="badgeShelf"></div>
+  </div>
+
+  <footer>进度保存在本设备浏览器里（localStorage），换设备不会同步。<br>Progress is saved in this browser only — it won't sync across devices.</footer>
+</div>
+
+<script>
+const DAYS = [
+{"day_number":1,"date_label":"8月10日 · 周一 (Mon)","theme_zh":"开局：建立跟读与复述的稳定节奏","theme_en":"Kickoff: Building a Steady Rhythm","tasks":[
+{"zh":"暖场签到：写下今天想达成的一个小目标","en":"Warm-up: jot down one small goal for today","minutes":8,"skill":"review"},
+{"zh":"Read Aloud 跟读朗读：机经 p.24-26，录音朗读 6 段","en":"Read Aloud: bank p.24-26, record 6 passages","minutes":10,"skill":"speaking"},
+{"zh":"Repeat Sentence 复述句子：机经 p.38-39，听后复述 8 句","en":"Repeat Sentence: bank p.38-39, repeat 8 sentences","minutes":10,"skill":"speaking"},
+{"zh":"Describe Image 看图说话：机经 p.52-56，用模板描述 3 张图","en":"Describe Image: bank p.52-56, 3 images with template","minutes":10,"skill":"speaking"},
+{"zh":"Re-tell Lecture 复述讲座：机经 p.81-86，精听 1 段并复述要点","en":"Re-tell Lecture: bank p.81-86, listen + retell key points","minutes":10,"skill":"speaking"},
+{"zh":"录音自查：回听今天的 RA/RS 录音，标出卡壳的词","en":"Self-record review: replay RA/RS, flag tricky words","minutes":10,"skill":"speaking"},
+{"zh":"二次挑战：挑今天最难的一句，重录到满意为止","en":"Redo: re-record today's hardest sentence","minutes":5,"skill":"speaking"},
+{"zh":"Write From Dictation 听写：机经 p.685-686，听写 6 句并核对","en":"Write From Dictation: bank p.685-686, 6 sentences","minutes":12,"skill":"listening"},
+{"zh":"阅读选择题：机经 p.298-306，限时完成 8 题","en":"Reading MCQ: bank p.298-306, 8 timed questions","minutes":12,"skill":"reading"},
+{"zh":"阅读选择题续：机经 p.307-314，再做 8 题并对答案","en":"Reading MCQ cont'd: bank p.307-314, 8 more + check","minutes":12,"skill":"reading"},
+{"zh":"生词整理：把今天阅读遇到的 5 个生词加入错题本","en":"Vocab log: add 5 new words to your notebook","minutes":8,"skill":"reading"},
+{"zh":"今日收尾：打勾完成，写一句今天最有成就感的瞬间","en":"Wrap-up: check the box, note one proud moment","minutes":5,"skill":"review"}
+]},
+{"day_number":2,"date_label":"8月11日 · 周二 (Tue)","theme_zh":"巩固：句子节奏升级 + 简答秒反应","theme_en":"Consolidate: Sentence Rhythm & Quick-Answer","tasks":[
+{"zh":"暖场签到：回顾昨天最难的一句，今天优先突破它","en":"Warm-up: revisit yesterday's hardest item first","minutes":8,"skill":"review"},
+{"zh":"Read Aloud 跟读朗读：机经 p.27-29，录音朗读 6 段","en":"Read Aloud: bank p.27-29, record 6 passages","minutes":10,"skill":"speaking"},
+{"zh":"Repeat Sentence 复述句子：机经 p.40-41，听后复述 8 句","en":"Repeat Sentence: bank p.40-41, repeat 8 sentences","minutes":10,"skill":"speaking"},
+{"zh":"Describe Image 看图说话：机经 p.57-61，练习描述 3 张图","en":"Describe Image: bank p.57-61, describe 3 images","minutes":10,"skill":"speaking"},
+{"zh":"Answer Short Question 简答快答：机经 p.109-114，练习 15 题秒答","en":"Answer Short Question: bank p.109-114, 15 rapid-fire","minutes":10,"skill":"speaking"},
+{"zh":"录音自查：回听今天的录音，标出发音或语速问题","en":"Self-record review: flag pronunciation/pacing issues","minutes":10,"skill":"speaking"},
+{"zh":"二次挑战：挑今天最难的一句，重录到满意为止","en":"Redo: re-record today's hardest sentence","minutes":5,"skill":"speaking"},
+{"zh":"Write From Dictation 听写：机经 p.687-688，听写 6 句并核对","en":"Write From Dictation: bank p.687-688, 6 sentences","minutes":12,"skill":"listening"},
+{"zh":"阅读填空：机经 p.321-333，完成 6 篇填空","en":"Reading FIB: bank p.321-333, 6 passages","minutes":12,"skill":"reading"},
+{"zh":"阅读填空续：机经 p.334-345，再完成 6 篇并对答案","en":"Reading FIB cont'd: bank p.334-345, 6 more + check","minutes":12,"skill":"reading"},
+{"zh":"生词整理：把今天遇到的 5 个生词加入错题本","en":"Vocab log: add 5 new words to your notebook","minutes":8,"skill":"reading"},
+{"zh":"今日收尾：打勾完成，写一句今天的小惊喜","en":"Wrap-up: check the box, note one small win","minutes":5,"skill":"review"}
+]},
+{"day_number":3,"date_label":"8月12日 · 周三 (Wed)","theme_zh":"转折：段落重组开窍 + 小组讨论开口说","theme_en":"Turning Point: Re-order Paragraphs & Group Discussion","tasks":[
+{"zh":"暖场签到：本周过半，回顾这三天进步最大的一项","en":"Warm-up: note the skill that's improved most so far","minutes":8,"skill":"review"},
+{"zh":"Read Aloud 跟读朗读：机经 p.30-31，录音朗读 5 段","en":"Read Aloud: bank p.30-31, record 5 passages","minutes":10,"skill":"speaking"},
+{"zh":"Repeat Sentence 复述句子：机经 p.42-43，听后复述 8 句","en":"Repeat Sentence: bank p.42-43, repeat 8 sentences","minutes":10,"skill":"speaking"},
+{"zh":"Describe Image 看图说话：机经 p.62-65，练习描述 3 张图","en":"Describe Image: bank p.62-65, describe 3 images","minutes":10,"skill":"speaking"},
+{"zh":"Summarize Group Discussion 小组讨论总结：机经 p.128-133，听 3 段并归纳观点","en":"Summarize Group Discussion: bank p.128-133, 3 discussions","minutes":10,"skill":"speaking"},
+{"zh":"录音自查：回听今天的录音，标出结构或衔接词问题","en":"Self-record review: flag structure/linking issues","minutes":10,"skill":"speaking"},
+{"zh":"写作保温：翻一眼 Summarize Written Text 模板，确认句型没生疏","en":"Writing touch: skim your SWT template, keep it fresh","minutes":5,"skill":"writing"},
+{"zh":"Write From Dictation 听写：机经 p.689-690，听写 6 句并核对","en":"Write From Dictation: bank p.689-690, 6 sentences","minutes":12,"skill":"listening"},
+{"zh":"段落重组：机经 p.346-357，练习 5 篇排序","en":"Re-order Paragraphs: bank p.346-357, 5 passages","minutes":12,"skill":"reading"},
+{"zh":"段落重组续：机经 p.358-368，再练 5 篇并对答案","en":"Re-order cont'd: bank p.358-368, 5 more + check","minutes":12,"skill":"reading"},
+{"zh":"生词整理：把今天遇到的 4 个生词加入错题本","en":"Vocab log: add 4 new words to your notebook","minutes":6,"skill":"reading"},
+{"zh":"今日收尾：打勾完成，写一句今天最想表扬自己的地方","en":"Wrap-up: check the box, praise yourself for one thing","minutes":5,"skill":"review"}
+]},
+{"day_number":4,"date_label":"8月13日 · 周四 (Thu)","theme_zh":"冲刺：图片描述升级 + 讲座复述第二轮","theme_en":"Push Forward: Describe Image & Lecture Retell Round 2","tasks":[
+{"zh":"暖场签到：写下今天想优先修正的一个小问题","en":"Warm-up: name one small issue to fix first today","minutes":8,"skill":"review"},
+{"zh":"Read Aloud 跟读朗读：机经 p.32-33，录音朗读 5 段","en":"Read Aloud: bank p.32-33, record 5 passages","minutes":10,"skill":"speaking"},
+{"zh":"Repeat Sentence 复述句子：机经 p.44-45，听后复述 8 句","en":"Repeat Sentence: bank p.44-45, repeat 8 sentences","minutes":10,"skill":"speaking"},
+{"zh":"Describe Image 看图说话：机经 p.66-70，练习描述 4 张图（含图表类）","en":"Describe Image: bank p.66-70, 4 images incl. charts","minutes":10,"skill":"speaking"},
+{"zh":"Re-tell Lecture 复述讲座第二轮：机经 p.87-92，挑战不同图表类型的讲座","en":"Re-tell Lecture round 2: bank p.87-92, chart-type lectures","minutes":10,"skill":"speaking"},
+{"zh":"录音自查：回听今天的录音，对比昨天有没有进步","en":"Self-record review: compare against yesterday","minutes":10,"skill":"speaking"},
+{"zh":"二次挑战：挑今天最难的一句，重录到满意为止","en":"Redo: re-record today's hardest sentence","minutes":5,"skill":"speaking"},
+{"zh":"Write From Dictation 听写：机经 p.691-692，听写 6 句并核对","en":"Write From Dictation: bank p.691-692, 6 sentences","minutes":12,"skill":"listening"},
+{"zh":"阅读选择题：机经 p.369-382，限时完成 8 题","en":"Reading MCQ: bank p.369-382, 8 timed questions","minutes":12,"skill":"reading"},
+{"zh":"阅读选择题续：机经 p.383-395，再做 8 题并对答案","en":"Reading MCQ cont'd: bank p.383-395, 8 more + check","minutes":12,"skill":"reading"},
+{"zh":"生词整理：把今天遇到的 5 个生词加入错题本","en":"Vocab log: add 5 new words to your notebook","minutes":8,"skill":"reading"},
+{"zh":"今日收尾：打勾完成，写一句今天的小惊喜","en":"Wrap-up: check the box, note one small win","minutes":5,"skill":"review"}
+]},
+{"day_number":5,"date_label":"8月14日 · 周五 (Fri)","theme_zh":"深化：简答反应再提速 + 填空细节再打磨","theme_en":"Deepen: Faster Answers & Sharper Fill-in-the-Blank","tasks":[
+{"zh":"暖场签到：一周就快过半冲刺，写下今天想加把劲的一件事","en":"Warm-up: name one thing to push harder on today","minutes":8,"skill":"review"},
+{"zh":"Read Aloud 跟读朗读：机经 p.34-35，录音朗读 5 段","en":"Read Aloud: bank p.34-35, record 5 passages","minutes":10,"skill":"speaking"},
+{"zh":"Repeat Sentence 复述句子：机经 p.46-47，听后复述 8 句","en":"Repeat Sentence: bank p.46-47, repeat 8 sentences","minutes":10,"skill":"speaking"},
+{"zh":"Describe Image 看图说话：机经 p.71-74，练习描述 3 张图","en":"Describe Image: bank p.71-74, describe 3 images","minutes":10,"skill":"speaking"},
+{"zh":"Answer Short Question 简答第二轮：机经 p.115-120，练习 15 题并计时","en":"Answer Short Question round 2: bank p.115-120, timed","minutes":10,"skill":"speaking"},
+{"zh":"录音自查：回听今天的录音，标出还需要打磨的句子","en":"Self-record review: flag sentences needing polish","minutes":10,"skill":"speaking"},
+{"zh":"二次挑战：挑今天最难的一句，重录到满意为止","en":"Redo: re-record today's hardest sentence","minutes":5,"skill":"speaking"},
+{"zh":"Write From Dictation 听写：机经 p.693-694，听写 6 句并核对","en":"Write From Dictation: bank p.693-694, 6 sentences","minutes":12,"skill":"listening"},
+{"zh":"阅读填空：机经 p.396-408，完成 6 篇填空","en":"Reading FIB: bank p.396-408, 6 passages","minutes":12,"skill":"reading"},
+{"zh":"阅读填空续：机经 p.409-420，再完成 6 篇并对答案","en":"Reading FIB cont'd: bank p.409-420, 6 more + check","minutes":12,"skill":"reading"},
+{"zh":"生词整理：把今天遇到的 5 个生词加入错题本","en":"Vocab log: add 5 new words to your notebook","minutes":8,"skill":"reading"},
+{"zh":"今日收尾：打勾完成，写一句今天最想表扬自己的地方","en":"Wrap-up: check the box, praise yourself for one thing","minutes":5,"skill":"review"}
+]},
+{"day_number":6,"date_label":"8月15日 · 周六 (Sat)","theme_zh":"汇总：小组讨论收尾 + 段落重组冲线","theme_en":"Bring It Together: Group Discussion & Paragraphs","tasks":[
+{"zh":"暖场签到：周六加油站，写下这周最想在明天巩固的一项","en":"Warm-up: name what to reinforce tomorrow","minutes":8,"skill":"review"},
+{"zh":"Read Aloud 跟读朗读：机经 p.36-37，录音朗读 5 段","en":"Read Aloud: bank p.36-37, record 5 passages","minutes":10,"skill":"speaking"},
+{"zh":"Repeat Sentence 复述句子：机经 p.48-49，听后复述 8 句","en":"Repeat Sentence: bank p.48-49, repeat 8 sentences","minutes":10,"skill":"speaking"},
+{"zh":"Describe Image 看图说话：机经 p.75-79，练习描述 4 张图","en":"Describe Image: bank p.75-79, describe 4 images","minutes":10,"skill":"speaking"},
+{"zh":"Summarize Group Discussion 小组讨论第二轮：机经 p.134-139，听 3 段并归纳观点","en":"Summarize Group Discussion round 2: bank p.134-139","minutes":10,"skill":"speaking"},
+{"zh":"录音自查：回听今天的录音，标出这周反复出现的问题","en":"Self-record review: flag recurring issues this week","minutes":10,"skill":"speaking"},
+{"zh":"写作保温：再看一眼 Write Essay 开头模板，确认还记得","en":"Writing touch: glance at your essay opening template","minutes":5,"skill":"writing"},
+{"zh":"Write From Dictation 听写：机经 p.695-696，听写 6 句并核对","en":"Write From Dictation: bank p.695-696, 6 sentences","minutes":12,"skill":"listening"},
+{"zh":"段落重组：机经 p.421-433，练习 5 篇排序","en":"Re-order Paragraphs: bank p.421-433, 5 passages","minutes":12,"skill":"reading"},
+{"zh":"段落重组续：机经 p.434-445，再练 5 篇并对答案","en":"Re-order cont'd: bank p.434-445, 5 more + check","minutes":12,"skill":"reading"},
+{"zh":"生词整理：把今天遇到的 4 个生词加入错题本","en":"Vocab log: add 4 new words to your notebook","minutes":6,"skill":"reading"},
+{"zh":"今日收尾：打勾完成，写一句给明天复盘日的自己的话","en":"Wrap-up: leave a note for tomorrow's review-day self","minutes":5,"skill":"review"}
+]},
+{"day_number":7,"date_label":"8月16日 · 周日 (Sun)","theme_zh":"复盘日：回顾这一周，为自己喝彩","theme_en":"Review Day: Look Back & Celebrate Yourself","tasks":[
+{"zh":"本周回顾暖场：翻开这周的错题本，圈出重复出现的 3 个问题","en":"Weekly warm-up: circle 3 recurring issues in your log","minutes":8,"skill":"review"},
+{"zh":"Read Aloud 复盘：重录本周最卡壳的 3 句","en":"Read Aloud review: re-record this week's 3 toughest lines","minutes":10,"skill":"speaking"},
+{"zh":"Repeat Sentence 复盘：重听并复述本周做错最多的 5 句","en":"Repeat Sentence review: redo the 5 most-missed sentences","minutes":10,"skill":"speaking"},
+{"zh":"Describe Image 复盘：挑一张本周描述得最不顺的图，重新练一遍","en":"Describe Image review: redo the roughest image this week","minutes":10,"skill":"speaking"},
+{"zh":"口语薄弱项复盘：从本周 RL/ASQ/SGD 中挑最弱的一项，重做一轮","en":"Speaking weak-spot review: redo whichever felt weakest","minutes":10,"skill":"speaking"},
+{"zh":"Write From Dictation 复盘：重听写本周错得最多的 6 句","en":"Write From Dictation review: redo 6 most-missed sentences","minutes":10,"skill":"listening"},
+{"zh":"阅读复盘：重做本周错题（MCQ、填空、排序各挑 2 题）","en":"Reading review: redo 2 each of MCQ / FIB / re-order","minutes":12,"skill":"reading"},
+{"zh":"生词本回顾：快速过一遍这一周攒下的生词","en":"Vocab review: skim through this week's collected words","minutes":8,"skill":"reading"},
+{"zh":"进度检查：给本周的听力、口语、阅读各打一个自我评分","en":"Progress check: self-rate Listening, Speaking, Reading","minutes":5,"skill":"review"},
+{"zh":"反思与庆祝：写下这周最大的进步，和给自己的一句鼓励","en":"Reflect & celebrate: your biggest win, and a word for yourself","minutes":10,"skill":"review"}
+]}
+];
+
+const BADGES = [
+  {id:"first_task", emoji:"🌱", name_zh:"破土而出", name_en:"First Step"},
+  {id:"daily_all_clear", emoji:"🔥", name_zh:"今日全勤", name_en:"Full Clear"},
+  {id:"streak_3", emoji:"⭐", name_zh:"三日连击", name_en:"3-Day Streak"},
+  {id:"streak_5", emoji:"🌟", name_zh:"五日连击", name_en:"5-Day Streak"},
+  {id:"tier1_core_four", emoji:"🎯", name_zh:"核心四项", name_en:"Core Four"},
+  {id:"reading_warrior", emoji:"📖", name_zh:"阅读勇士", name_en:"Reading Warrior"},
+  {id:"comeback", emoji:"💪", name_zh:"王者归来", name_en:"Back At It"},
+  {id:"week_champion", emoji:"🏆", name_zh:"第一周满贯", name_en:"Week 1 Champion"}
+];
+
+const CELEBRATION_LINES = [
+  {zh:"今天的清单，清空了。这就是进步的样子。", en:"Today's list: cleared. This is what progress looks like."},
+  {zh:"两小时，一分钟没浪费。明天见。", en:"Two hours, not a minute wasted. See you tomorrow."},
+  {zh:"又扎实的一天。62到80，就是这么一天天堆出来的。", en:"Another solid day in the bank. 62 to 80 gets built exactly like this."},
+  {zh:"全部完成。今晚的你，比今早更强一点。", en:"All done. You're a little sharper tonight than this morning."},
+  {zh:"今天的功课收工。休息，也是训练的一部分。", en:"Today's work is done. Rest is part of the training too."},
+  {zh:"清单归零，信心加一。", en:"List: zero. Confidence: plus one."},
+  {zh:"稳。这就是稳扎稳打的样子。", en:"Steady. This is exactly what steady progress looks like."}
+];
+
+const WEEK_COMPLETE = {
+  zh: "第一周，全部拿下。七天，零遗漏——这不是运气，是你自己一项一项做出来的底气。听力、阅读、口语、写作，你没有绕开任何一项。62到80的路，已经真正开始了。",
+  en: "Week 1 — fully complete. Seven days, nothing skipped. The road from 62 to 80 has genuinely begun."
+};
+
+const PROGRESS_MICROCOPY = [
+  {t:0, zh:"开始吧。", en:"Let's begin."},
+  {t:0.25, zh:"开了个头，继续。", en:"You've started. Keep going."},
+  {t:0.5, zh:"过半了，今天的节奏很好。", en:"Halfway there — good rhythm today."},
+  {t:0.75, zh:"只剩最后一小段。", en:"Just the home stretch left."},
+  {t:1, zh:"全部完成！", en:"All done!"}
+];
+
+const STORAGE_KEY = "pte_w1_progress";
+let state = loadState();
+let currentDay = state.currentDay || 1;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return { days: {}, badges: [], currentDay: 1 };
+}
+function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function dayState(d) {
+  if (!state.days[d]) state.days[d] = {};
+  return state.days[d];
+}
+function isDayCleared(d) {
+  const tasks = DAYS[d-1].tasks;
+  const ds = dayState(d);
+  return tasks.every((_, i) => ds[i]);
+}
+function dayDoneCount(d) {
+  const ds = dayState(d);
+  return DAYS[d-1].tasks.filter((_, i) => ds[i]).length;
+}
+
+function computeStreak() {
+  let streak = 0, graceUsed = false, prevMissed = false;
+  for (let d = 1; d <= 7; d++) {
+    if (isDayCleared(d)) { streak++; prevMissed = false; }
+    else if (dayDoneCount(d) === 0 && d > mostRecentTouchedDay()) {
+      break;
+    } else if (!graceUsed && !prevMissed) {
+      graceUsed = true; prevMissed = true;
+    } else {
+      streak = 0; prevMissed = true;
+    }
+  }
+  return streak;
+}
+function mostRecentTouchedDay() {
+  let last = 0;
+  for (let d = 1; d <= 7; d++) if (dayDoneCount(d) > 0) last = d;
+  return last;
+}
+
+function awardBadge(id) {
+  if (!state.badges.includes(id)) {
+    state.badges.push(id);
+    saveState();
+    return true;
+  }
+  return false;
+}
+
+function checkBadges(d, justCompletedDay) {
+  const newlyAwarded = [];
+  if (awardBadge("first_task")) newlyAwarded.push("first_task");
+  if (justCompletedDay) {
+    if (awardBadge("daily_all_clear")) newlyAwarded.push("daily_all_clear");
+    const ds = dayState(d);
+    const tierIdx = DAYS[d-1].tasks.map((t,i)=>({t,i})).filter(x => /Read Aloud|Repeat Sentence|Describe Image/.test(x.t.zh) || /Write From Dictation/.test(x.t.zh));
+    const coreDone = tierIdx.length > 0 && tierIdx.every(x => ds[x.i]);
+    if (coreDone && awardBadge("tier1_core_four")) newlyAwarded.push("tier1_core_four");
+    const readingIdx = DAYS[d-1].tasks.map((t,i)=>({t,i})).filter(x => x.t.skill === "reading");
+    const readingDone = readingIdx.length > 0 && readingIdx.every(x => ds[x.i]);
+    if (readingDone && awardBadge("reading_warrior")) newlyAwarded.push("reading_warrior");
+
+    const wasReset = state._streakWasReset;
+    const streak = computeStreak();
+    if (streak >= 3 && awardBadge("streak_3")) newlyAwarded.push("streak_3");
+    if (streak >= 5 && awardBadge("streak_5")) newlyAwarded.push("streak_5");
+    if (streak === 0) { state._streakWasReset = true; }
+    else if (wasReset && streak >= 1) {
+      state._streakWasReset = false;
+      if (awardBadge("comeback")) newlyAwarded.push("comeback");
+    }
+    if ([1,2,3,4,5,6,7].every(isDayCleared) && awardBadge("week_champion")) newlyAwarded.push("week_champion");
+    saveState();
+  }
+  return newlyAwarded;
+}
+
+function renderDaySwitcher() {
+  const el = document.getElementById("daySwitcher");
+  el.innerHTML = "";
+  DAYS.forEach(day => {
+    const btn = document.createElement("button");
+    btn.className = "day-pill" + (day.day_number === currentDay ? " active" : "");
+    btn.setAttribute("aria-pressed", day.day_number === currentDay ? "true" : "false");
+    const cleared = isDayCleared(day.day_number);
+    btn.innerHTML = (cleared ? '<span class="dot" aria-hidden="true"></span>' : '') +
+      `Day ${day.day_number} · ${day.date_label.split(" · ")[1] || ""}`;
+    btn.addEventListener("click", () => { currentDay = day.day_number; state.currentDay = currentDay; saveState(); renderAll(); });
+    el.appendChild(btn);
+  });
+}
+
+function skillVars(skill) {
+  const map = {
+    speaking: ["var(--speaking)", "var(--speaking-bg)"],
+    reading: ["var(--reading)", "var(--reading-bg)"],
+    listening: ["var(--listening)", "var(--listening-bg)"],
+    writing: ["var(--writing)", "var(--writing-bg)"],
+    review: ["var(--ink-faint)", "var(--surface-2)"]
+  };
+  return map[skill] || map.review;
+}
+
+function renderTaskList() {
+  const day = DAYS[currentDay - 1];
+  const ds = dayState(currentDay);
+  const el = document.getElementById("taskList");
+  el.innerHTML = "";
+  day.tasks.forEach((task, i) => {
+    const [color, bg] = skillVars(task.skill);
+    const checked = !!ds[i];
+    const card = document.createElement("div");
+    card.className = "task-card" + (checked ? " done" : "");
+    card.style.setProperty("--tag-color", color);
+    card.style.setProperty("--tag-bg", bg);
+    card.innerHTML = `
+      <label class="check-label">
+        <span style="position:relative;display:inline-block;width:22px;height:22px;flex:0 0 auto;">
+          <input type="checkbox" class="check-input" ${checked ? "checked" : ""} aria-label="${task.zh} / ${task.en}">
+          <span class="check-box"><svg viewBox="0 0 22 22"><path d="M6 11.5 L9.5 15 L16 7.5"/></svg></span>
+        </span>
+        <span class="task-body">
+          <span class="task-title">${task.zh}<span class="en">${task.en}</span></span>
+          <span class="meta-row">
+            <span class="time-chip">~${task.minutes} min</span>
+            <span class="skill-chip">${task.skill}</span>
+          </span>
+        </span>
+      </label>`;
+    const input = card.querySelector(".check-input");
+    input.addEventListener("change", () => onToggle(currentDay, i, input.checked));
+    el.appendChild(card);
+  });
+}
+
+function renderProgressHead() {
+  const day = DAYS[currentDay - 1];
+  const total = day.tasks.length;
+  const done = dayDoneCount(currentDay);
+  const frac = total ? done / total : 0;
+  const circumference = 2 * Math.PI * 22;
+  const ring = document.getElementById("ringFill");
+  ring.style.strokeDasharray = circumference;
+  ring.style.strokeDashoffset = circumference * (1 - frac);
+  document.getElementById("ringNum").textContent = `${done}/${total}`;
+  document.getElementById("dayTheme").textContent = `Day ${day.day_number} — ${day.theme_zh}`;
+  let micro = PROGRESS_MICROCOPY[0];
+  for (const m of PROGRESS_MICROCOPY) if (frac >= m.t) micro = m;
+  document.getElementById("dayCaption").textContent = `${micro.zh} ${micro.en}`;
+  document.getElementById("liveRegion").textContent = `${done} of ${total} tasks complete for Day ${day.day_number}`;
+}
+
+function renderDayBanner() {
+  const banner = document.getElementById("dayBanner");
+  if (isDayCleared(currentDay)) {
+    const line = CELEBRATION_LINES[(currentDay - 1) % CELEBRATION_LINES.length];
+    document.getElementById("dayBannerHeadline").textContent = `Day ${currentDay} 完成 Complete 🎖`;
+    document.getElementById("dayBannerLine").innerHTML = `${line.zh}<span class="en">${line.en}</span>`;
+    banner.classList.add("show");
+  } else {
+    banner.classList.remove("show");
+  }
+}
+
+function renderWeekBanner() {
+  const el = document.getElementById("weekBanner");
+  const done = [1,2,3,4,5,6,7].every(isDayCleared);
+  document.getElementById("weekBannerText").innerHTML = `${WEEK_COMPLETE.zh}<span class="en">${WEEK_COMPLETE.en}</span>`;
+  el.classList.toggle("show", done);
+}
+
+function renderBadgeShelf(newlyAwarded) {
+  const el = document.getElementById("badgeShelf");
+  el.innerHTML = "";
+  const streak = computeStreak();
+  BADGES.forEach(b => {
+    const earned = state.badges.includes(b.id);
+    const div = document.createElement("div");
+    div.className = "badge" + (earned ? "" : " locked") + (newlyAwarded && newlyAwarded.includes(b.id) ? " new-badge" : "");
+    let count = "";
+    if (b.id === "daily_all_clear" && earned) {
+      const clears = [1,2,3,4,5,6,7].filter(isDayCleared).length;
+      count = ` ×${clears}`;
+    }
+    div.innerHTML = `<div class="icon">${earned ? b.emoji : "•"}</div><div class="name">${b.name_zh}${count}</div>`;
+    el.appendChild(div);
+  });
+  document.getElementById("streakChip").textContent = `🔥 ${streak} 天连击 · ${state.badges.length} badges`;
+}
+
+function renderAll(newlyAwarded) {
+  renderDaySwitcher();
+  renderProgressHead();
+  renderTaskList();
+  renderDayBanner();
+  renderWeekBanner();
+  renderBadgeShelf(newlyAwarded);
+}
+
+function onToggle(d, i, checked) {
+  const ds = dayState(d);
+  ds[i] = checked;
+  const wasCleared = isDayCleared(d);
+  saveState();
+  const newlyAwarded = checkBadges(d, checked && wasCleared);
+  renderAll(newlyAwarded);
+  if (checked && wasCleared) fireConfetti();
+}
+
+function fireConfetti() {
+  const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) return;
+  const canvas = document.getElementById("confetti-canvas");
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+  ctx.scale(dpr, dpr);
+  const colors = ["#c0632e", "#3c7a5d", "#3b6ea5", "#6b4e9c", "#3f9142", "#c9932c"];
+  const particles = Array.from({length: 90}, () => ({
+    x: Math.random() * window.innerWidth,
+    y: -20 - Math.random() * 200,
+    r: 3 + Math.random() * 4,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vy: 2 + Math.random() * 3,
+    vx: -1.5 + Math.random() * 3,
+    rot: Math.random() * Math.PI,
+    vrot: -0.2 + Math.random() * 0.4
+  }));
+  const start = performance.now();
+  function frame(now) {
+    const t = now - start;
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.vrot;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r * 1.6);
+      ctx.restore();
+    });
+    if (t < 1800) {
+      requestAnimationFrame(frame);
+    } else {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      canvas.width = 0; canvas.height = 0;
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+renderAll();
+</script>
+</body>
+</html>
